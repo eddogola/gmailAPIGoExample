@@ -1,37 +1,35 @@
 package main
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"fmt"
+	"log"
 
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	// "google.golang.org/api/gmail/v1"
 )
 
-type Cred struct {
-	Installed struct{
-		Client_secret string `json:"client_secret"`
-		Client_id string `json:"client_id"`
-	} `json:"installed"`
+func check(err error) {
+	if err != nil {
+		log.Printf("Error: %v", err)
+	}
 }
 
-func getClientCreds() Cred {
+func getConfig() *oauth2.Config {
 	filename := "credentials.json"
-	bs, err := ioutil.ReadFile(filename)
+	credentials, err := ioutil.ReadFile(filename)
 
 	if err != nil {
 		panic(err)
 	}
 
-	var cred Cred
-	json.Unmarshal(bs, &cred)
+	config, err := google.ConfigFromJSON(credentials, "https://www.googleapis.com/auth/gmail.send") // gmail.GmailSendScope) //"https://www.googleapis.com/auth/gmail.send"
+	check(err)
 
-	return cred
+	return config
 }
 
 func main() {
-	creds := getClientCreds()
-
-	fmt.Println("client id:", creds.Installed.Client_id)
-	fmt.Println("client secret:", creds.Installed.Client_secret)
+	fmt.Println(getConfig())
 }
