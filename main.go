@@ -95,16 +95,17 @@ func main() {
 	}
 
 	user := "me"
-	resp, err := srv.Users.Labels.List(user).Do()
+
+	r, err := srv.Users.Messages.List(user).Do()
 	if err != nil {
-		log.Fatalf("Unable to retrieve labels: %v", err)
+		log.Fatalf("Unable to retrieve messages: %v", err)
 	}
-	if len(resp.Labels) == 0 {
-		fmt.Println("No labels found")
+	if len(r.Messages) == 0 {
+		fmt.Println("No messages found")
 		return
 	}
-	fmt.Println("Labels:")
-	for _, label := range resp.Labels {
-		fmt.Printf("- %s\n", label.Name)
+
+	for _, msg := range r.Messages {
+		fmt.Println(msg.Id)
 	}
 }
