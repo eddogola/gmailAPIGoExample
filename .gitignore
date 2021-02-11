@@ -1,6 +1,2 @@
-# go compiled packages
-pkg
-# go package source files
-src
 # google credentials file
 credentials.json
