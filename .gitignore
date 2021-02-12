@@ -1,2 +1,4 @@
 # google credentials file
 credentials.json
+# generated token file
+token.json
